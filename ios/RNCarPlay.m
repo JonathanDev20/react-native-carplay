@@ -274,13 +274,12 @@ RCT_EXPORT_METHOD(createTemplate:(NSString *)templateId config:(NSDictionary*)co
             NSArray<NSDictionary*> *_buttons = [RCTConvert NSDictionaryArray:config[@"buttons"]];
             
             NSDictionary *buttonImagesNamesMapping = @{
-                @"heart": @"HeartIcon",
-                @"heart-outlined": @"HeartOutlinedIcon",
-                @"clock": @"ClockNowIcon",
-                @"arrow-down-circle": @"ArrowDownCircleIcon",
-                @"md-close": @"CloseIcon",
-                @"repeat": @"RepeatIcon",
-                @"shuffle": @"ShuffleIcon"
+                @"shuffle": CPNowPlayingShuffleButton.class,
+                @"add-to-library": CPNowPlayingAddToLibraryButton.class,
+                @"more": CPNowPlayingMoreButton.class,
+                @"playback": CPNowPlayingPlaybackRateButton.class,
+                @"repeat": CPNowPlayingRepeatButton.class,
+                @"image": CPNowPlayingImageButton.class
             };
             
             for (NSDictionary *_button in _buttons) {
@@ -290,7 +289,7 @@ RCT_EXPORT_METHOD(createTemplate:(NSString *)templateId config:(NSDictionary*)co
                 NSDictionary *body = @{@"templateId":templateId, @"id": id};
                 UIImage *buttonImage = [UIImage imageNamed:buttonImagesNamesMapping[imageName]];
                 if (buttonImage) {
-                    CPNowPlayingButton *button = [CPNowPlayingImageButton.alloc initWithImage:buttonImage handler:^(CPNowPlayingImageButton*) {
+                    CPNowPlayingButton *button = [[buttonClass alloc] initWithHandler:^(__kindof CPNowPlayingButton * _Nonnull) {
                         if (self->hasListeners) {
                             [self sendEventWithName:@"buttonPressed" body:body];
                         }
