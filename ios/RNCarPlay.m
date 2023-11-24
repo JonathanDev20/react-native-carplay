@@ -287,7 +287,7 @@ RCT_EXPORT_METHOD(createTemplate:(NSString *)templateId config:(NSDictionary*)co
                 NSString *imageName = [RCTConvert NSString:_button[@"imageName"]];
                 BOOL selected = [RCTConvert BOOL:_button[@"selected"]];
                 NSDictionary *body = @{@"templateId":templateId, @"id": id};
-                UIImage *buttonImage = [UIImage imageNamed:buttonImagesNamesMapping[imageName]];
+                Class buttonImage = buttonImagesNamesMapping[imageName];
                 if (buttonImage) {
                     CPNowPlayingButton *button = [[buttonImage alloc] initWithHandler:^(__kindof CPNowPlayingButton * _Nonnull) {
                         if (self->hasListeners) {
